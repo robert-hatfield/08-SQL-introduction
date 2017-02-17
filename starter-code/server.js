@@ -69,8 +69,16 @@ app.post('/articles', function(request, response) {
 
 app.put('/articles/:id', function(request, response) {
   client.query(
-    ``, // TODO: Write the SQL query to update an existing record
-    [] // TODO: Get each value from the request's body
+    `UPDATE articles SET author = $1, "authorUrl" = $2, body = $3, category = $4, "publishedOn" = $5, title = $6 WHERE article_id = $7` , // DONE: Write the SQL query to update an existing record
+    [
+      request.body.author,
+      request.body.authorUrl,
+      request.body.body,
+      request.body.category,
+      request.body.publishedOn,
+      request.body.title,
+      request.params.id
+    ] // DONE: Get each value from the request's body
   );
   response.send('update complete');
 });
