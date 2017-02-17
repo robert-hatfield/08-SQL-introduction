@@ -93,7 +93,7 @@ app.delete('/articles/:id', function(request, response) {
 
 app.delete('/articles', function(request, response) {
   client.query(
-    '' // TODO: Write the SQl query to truncate the table
+    'TRUNCATE TABLE articles' // DONE: Write the SQL query to truncate the table
   );
   response.send('Delete complete');
 });
