@@ -1,16 +1,16 @@
 'use strict';
-// TODO: Install and require the node postgres package into your server.js, and ensure that it's now a new dependency in your package.json
-// const pg = require('pg');
+// DONE: Install and require the Node postgres package 'pg' into your server.js, and ensure that it's now a new dependency in your package.json
+const pg = require('pg');
 const express = require('express');
 // REVIEW: Require in body-parser for post requests in our server
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
-// TODO: Complete the connection string for the url that will connect to your local postgres database
+// DONE: Complete the connection string for the url that will connect to your local postgres database
 // Windows and Linux users; You should have retained the user/pw from the pre-work for this course.
 // Your url may require that it's composed of additional information including user and password7
 // NOTE: Students will have varying URLs depending on their OS
-// const conString = 'postgres://localhost:5432';
+const conString = 'postgres://localhost:5432';
 // REVIEW: Pass the conString to pg, which creates a new client object
 const client = new pg.Client(conString);
 // REVIEW: Use the client object to connect to our DB.
@@ -69,15 +69,23 @@ app.post('/articles', function(request, response) {
 
 app.put('/articles/:id', function(request, response) {
   client.query(
-    ``, // TODO: Write the SQL query to update an existing record
-    [] // TODO: Get each value from the request's body
+    `UPDATE articles SET author = $1, "authorUrl" = $2, body = $3, category = $4, "publishedOn" = $5, title = $6 WHERE article_id = $7` , // DONE: Write the SQL query to update an existing record
+    [
+      request.body.author,
+      request.body.authorUrl,
+      request.body.body,
+      request.body.category,
+      request.body.publishedOn,
+      request.body.title,
+      request.params.id
+    ] // DONE: Get each value from the request's body
   );
   response.send('update complete');
 });
 
 app.delete('/articles/:id', function(request, response) {
   client.query(
-    ``, // TODO: Write the SQL query to delete a record
+    `DELETE FROM articles WHERE article_id = $1`, // DONE: Write the SQL query to delete a record
     [request.params.id]
   );
   response.send('Delete complete');
@@ -85,7 +93,7 @@ app.delete('/articles/:id', function(request, response) {
 
 app.delete('/articles', function(request, response) {
   client.query(
-    '' // TODO: Write the SQl query to truncate the table
+    'TRUNCATE TABLE articles' // DONE: Write the SQL query to truncate the table
   );
   response.send('Delete complete');
 });
