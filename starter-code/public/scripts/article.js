@@ -102,12 +102,12 @@ Article.fetchAll = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of Article.truncateTable():
- * - Describe what the method does
- * - Inputs: identify any inputs and their source
- * - Outputs: identify any outputs and their destination
+ * - This method asks server.js to remove all records from the 'articles' table. When complete, it logs the response from the server ('Delete complete') to the console, and then executes the callback method passed to 'Article.truncateTable', if one was sent when it was invoked.
+ * - Inputs: An optional callback function may be passed as its argument. This method is not currently invoked, though, in our started code.
+ * - Outputs: Sends an ajax request to server.js to delete all records in the 'articles' table. It will also log a text string response to the console, and may invoke a callback function, if one was received.
  */
 Article.truncateTable = function(callback) {
   // DONE: Sends an ajax request to server.js using the REST HTTP 'DELETE' method. All records in the 'articles' table will be deleted. (The table itself & its schema remain intact.).
@@ -115,7 +115,7 @@ Article.truncateTable = function(callback) {
     url: '/articles',
     method: 'DELETE',
   })
-  // DONE: The HTTP response from server.js ('data') is logged to the console. In this case, 'data' contains the string "'Delete complete'". If a functions was passed to .truncateTable, it is then executed.
+  // DONE: The HTTP response from server.js ('data') is logged to the console. In this case, 'data' contains the string "'Delete complete'". If a callback function was passed to .truncateTable, it is then executed.
   .then(function(data) {
     console.log(data);
     if (callback) callback();
@@ -124,17 +124,17 @@ Article.truncateTable = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
  * OVERVIEW of '.insertRecord' method
  * - Describe what the method does
- * - Inputs: Called by each constructed article object on line 87, within 'Article.fetchAll'. This will occur if no records exist in the 'article' table of the DB. INFO: The insertRecord method has allows for a parameter, but none is provided in this version of the code. The rest of the function will execute nonetheless. (Line 140 will be false, so no callback occurs.)
+ * - Inputs: Called by each constructed article object on line 87, within 'Article.fetchAll'. This will occur if no records exist in the 'article' table of the DB. INFO: The insertRecord method has allows for a parameter, but none is provided in this version of the code. The rest of the function will execute nonetheless. Line 140 will be false, so no callback occurs.
  * - Outputs: identify any outputs and their destination
  */
 Article.prototype.insertRecord = function(callback) {
-  // TODO: Creates record in the 'articles' table of the SQL database, using the POST HTTP request. It is called by each article object after it is constructed from the data contained in 'hackeripsum.json' on line 87.
+  // DONE: Creates records in the 'articles' table of the SQL database, using the POST HTTP request. It is called by each article object after it is constructed from the data contained in 'hackeripsum.json' on line 87.
   $.post('/articles', {author: this.author, authorUrl: this.authorUrl, body: this.body, category: this.category, publishedOn: this.publishedOn, title: this.title})
-  // TODO: describe what the following code is doing
+  // DONE: Log the response from server.js (should be a string of 'insert complete') to the console. Then execute the callback function, if one was provided. None of the code in the starter is passing a callback to insertRecord at this time.
   .then(function(data) {
     console.log(data);
     if (callback) callback();
@@ -143,20 +143,20 @@ Article.prototype.insertRecord = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
- * OVERVIEW of
- * - Describe what the method does
- * - Inputs: identify any inputs and their source
- * - Outputs: identify any outputs and their destination
+ * OVERVIEW of Article.prototype.deleteRecord
+ * - This method is available to all instances of the Article class of objects. It deletes from the database the record of the article ('this') that calls the method.
+ * - Inputs: An optional argument, a callback function or method. No sources in the starter code; deleteRecord is not invoked anywhere in the project files at this time.
+ * - Outputs: When invoked, this method will send an HTTP request to server.js, with a URL record for the server to delete. It will then log the server response to the console, and execute a callback function/method, if one was provided.
  */
 Article.prototype.deleteRecord = function(callback) {
-  // TODO: deletes a single article record from the database
+  // DONE: this sends an ajax request with the 'DELETE' method to server.js, referencing the URL of whichever article instance calls deleteRecord.
   $.ajax({
     url: `/articles/${this.article_id}`,
     method: 'DELETE'
   })
-  // TODO: describe what the following code is doing
+  // DONE: this logs the response from the server to the console, then execute the callback function, if one was provided.
   .then(function(data) {
     console.log(data);
     if (callback) callback();
@@ -165,19 +165,19 @@ Article.prototype.deleteRecord = function(callback) {
 
 // ++++++++++++++++++++++++++++++++++++++
 
-// TODO
+// DONE
 /**
- * OVERVIEW of
- * - Describe what the method does
- * - Inputs: identify any inputs and their source
- * - Outputs: identify any outputs and their destination
+ * OVERVIEW of Article.prototype.updateRecord
+ * - This method is available to all instances of objects created by the Article constructor. It asks the server to create a new record in the DB for the article that calls it.
+ * - Inputs: This receives an optional callback function as a parameter. This method is not invoked in the starter code at this time.
+ * - Outputs: An ajax request sent to server.js, using the PUT method, containing the key/value pairs of the article object that calls it. It will also log the server's response to the console, and invoke a callback function, if one was given.
  */
 Article.prototype.updateRecord = function(callback) {
-  // TODO: describe what the following code is doing
+  // DONE: this sends an ajax request, using the PUT method, to server.js to create ('PUT') a new record in the 'articles' table of the DB. In the request is an object literal with the key/value pairs of the article object that calls the 'updateRecord' method.
   $.ajax({
     url: `/articles/${this.article_id}`,
     method: 'PUT',
-    data: {  // TODO: describe what this object is doing
+    data: {  // DONE: this is an object literal with the key/value pairs of the article object that calls this method
       author: this.author,
       authorUrl: this.authorUrl,
       body: this.body,
@@ -186,7 +186,7 @@ Article.prototype.updateRecord = function(callback) {
       title: this.title
     }
   })
-  // TODO: describe what the following code is doing
+  // DONE: This logs the response from the server to the console, and then invokes the callback function received by 'updateRecord', if one was provided.
   .then(function(data) {
     console.log(data);
     if (callback) callback();
