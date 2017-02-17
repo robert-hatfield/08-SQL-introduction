@@ -85,7 +85,7 @@ app.put('/articles/:id', function(request, response) {
 
 app.delete('/articles/:id', function(request, response) {
   client.query(
-    ``, // TODO: Write the SQL query to delete a record
+    `DELETE FROM articles WHERE article_id = $1`, // DONE: Write the SQL query to delete a record
     [request.params.id]
   );
   response.send('Delete complete');
