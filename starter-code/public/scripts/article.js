@@ -168,7 +168,7 @@ Article.prototype.deleteRecord = function(callback) {
 // DONE
 /**
  * OVERVIEW of Article.prototype.updateRecord
- * - This method is available to all instances of objects created by the Article constructor. It asks the server to create a new record in the DB for the article that calls it.
+ * - This method is available to all instances of objects created by the Article constructor. It asks the server to create a update the record in the DB for the article that calls it.
  * - Inputs: This receives an optional callback function as a parameter. This method is not invoked in the starter code at this time.
  * - Outputs: An ajax request sent to server.js, using the PUT method, containing the key/value pairs of the article object that calls it. It will also log the server's response to the console, and invoke a callback function, if one was given.
  */
